@@ -1,0 +1,39 @@
+name: 📅 イベントを追加する / Add an Event
+description: 新しいイベントをサイトに追加します / Add a new event to the site
+labels: ["event"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        イベント情報を入力してください。`src/content/events/` にMarkdownファイルを追加します。
+  - type: input
+    id: title
+    attributes:
+      label: イベント名 / Event Title
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: 開催日時 / Date & Time
+      placeholder: "2024-03-15 19:00"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: 場所 / Location
+      placeholder: "京都市 / Kyoto city / Online"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 概要 / Description
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: 申込URL / Registration URL
+      placeholder: "https://connpass.com/..."

@@ -1,0 +1,75 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n';
+import { getCollection } from 'astro:content';
+
+const t = useTranslations('ja');
+
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+const all = await getCollection('events', ({ data }) => data.lang === 'ja');
+
+const upcoming = all
+  .filter(e => e.data.date >= today)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+
+const past = all
+  .filter(e => e.data.date < today)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title={t('events.allTitle')}>
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h1 class="font-display text-4xl md:text-5xl font-black text-hannari-ink">
+      {t('events.allTitle')}
+      <span class="block w-12 h-1 bg-hannari-pink mt-3"></span>
+    </h1>
+
+    <!-- 今後のイベント -->
+    <section class="mt-12">
+      <h2 class="font-display text-2xl font-bold text-hannari-mauve mb-6">{t('events.upcoming')}</h2>
+      {upcoming.length === 0 ? (
+        <p class="text-hannari-ink/40 font-body">{t('events.empty')}</p>
+      ) : (
+        <div class="grid gap-4">
+          {upcoming.map(event => (
+            <article class="border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40">
+              <time class="text-xs text-hannari-gold font-mono">
+                {event.data.date.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric', weekday:'short' })}
+              </time>
+              <h3 class="font-display text-xl font-bold mt-1 text-hannari-ink">{event.data.title}</h3>
+              <p class="text-sm text-hannari-ink/60 mt-1 font-body">{event.data.description}</p>
+              <div class="flex flex-wrap gap-3 mt-3 text-xs text-hannari-ink/40 font-body">
+                <span>📍 {event.data.location}</span>
+                {event.data.online && <span>🌐 {t('events.online')}</span>}
+              </div>
+              {event.data.url && (
+                <a href={event.data.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-hannari-pink hover:underline font-body">
+                  {t('events.details')} →
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+
+    <!-- 過去のイベント -->
+    {past.length > 0 && (
+      <section class="mt-16">
+        <h2 class="font-display text-2xl font-bold text-hannari-ink/60 mb-6">{t('events.past')}</h2>
+        <div class="grid gap-3">
+          {past.map(event => (
+            <article class="border border-hannari-gold/10 rounded-xl p-4 bg-white/20 opacity-80">
+              <time class="text-xs text-hannari-gold/70 font-mono">
+                {event.data.date.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
+              </time>
+              <h3 class="font-display text-lg font-bold mt-1 text-hannari-ink/70">{event.data.title}</h3>
+              <p class="text-xs text-hannari-ink/40 mt-1 font-body">{event.data.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+  </section>
+</Base>

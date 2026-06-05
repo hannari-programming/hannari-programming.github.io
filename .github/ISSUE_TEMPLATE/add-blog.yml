@@ -1,0 +1,27 @@
+name: ✍️ ブログ記事を追加する / Add a Blog Post
+description: ブログ記事やイベントレポートを追加します
+labels: ["blog"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        `src/content/blog/` にMarkdownファイルを追加するPRを送ってください。
+  - type: input
+    id: title
+    attributes:
+      label: 記事タイトル / Post Title
+    validations:
+      required: true
+  - type: dropdown
+    id: lang
+    attributes:
+      label: 言語 / Language
+      options: ["ja", "en", "zh"]
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要 / Summary
+    validations:
+      required: true

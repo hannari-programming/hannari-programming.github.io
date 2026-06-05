@@ -1,0 +1,78 @@
+---
+import { getLangFromUrl, useTranslations, languages } from '../i18n';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t    = useTranslations(lang);
+
+const { title = 'Hannari Programming', description = t('hero.tagline') } = Astro.props;
+
+// 現在のパスを他言語に切り替えるURLを生成
+function switchLangUrl(targetLang: string) {
+  const path = Astro.url.pathname.replace(/^\/(ja|en|zh)/, '');
+  return `/${targetLang}${path || '/'}`;
+}
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <title>{title} | Hannari Programming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-pink:  #E8426E;
+      --color-mauve: #9B3B6A;
+      --color-cream: #FDF6EE;
+      --color-ink:   #1A1018;
+      --color-gold:  #C89B5A;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--color-cream); color: var(--color-ink); }
+  </style>
+</head>
+<body class="font-body antialiased min-h-screen flex flex-col">
+
+  <!-- ナビゲーション -->
+  <header class="sticky top-0 z-50 bg-hannari-cream/90 backdrop-blur border-b border-hannari-gold/20">
+    <nav class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href={`/${lang}/`} class="font-display text-xl font-bold text-hannari-mauve tracking-tight">
+        はんなり<span class="text-hannari-pink">プログラミング</span>
+      </a>
+      <div class="flex items-center gap-6 text-sm">
+        <a href={`/${lang}/events`} class="hover:text-hannari-pink transition-colors">{t('nav.events')}</a>
+        <a href={`/${lang}/blog`}   class="hover:text-hannari-pink transition-colors">{t('nav.blog')}</a>
+
+        <!-- 言語切り替え -->
+        <div class="flex gap-1 border border-hannari-gold/30 rounded-full px-3 py-1">
+          {Object.entries(languages).map(([code, label]) => (
+            <a
+              href={switchLangUrl(code)}
+              class={`text-xs px-1 transition-colors ${lang === code ? 'text-hannari-pink font-bold' : 'text-hannari-ink/50 hover:text-hannari-pink'}`}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-1">
+    <slot />
+  </main>
+
+  <footer class="border-t border-hannari-gold/20 py-8 text-center text-sm text-hannari-ink/40 font-body">
+    {t('footer.copy')}
+  </footer>
+
+</body>
+</html>

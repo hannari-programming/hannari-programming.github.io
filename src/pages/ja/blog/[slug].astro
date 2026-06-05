@@ -1,0 +1,70 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.lang === 'ja' && !data.draft);
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props:  { post },
+  }));
+}
+
+type Props = { post: CollectionEntry<'blog'> };
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const t = useTranslations('ja');
+---
+<Base title={post.data.title} description={post.data.description}>
+  <article class="max-w-3xl mx-auto px-6 py-16">
+    <a href="/ja/blog" class="text-sm text-hannari-pink hover:underline font-body">← {t('blog.backToList')}</a>
+
+    <header class="mt-6 mb-10">
+      <time class="text-xs text-hannari-gold font-mono">
+        {post.data.pubDate.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
+      </time>
+      <h1 class="font-display text-4xl md:text-5xl font-black mt-3 text-hannari-ink leading-tight">
+        {post.data.title}
+      </h1>
+      <p class="text-lg text-hannari-ink/60 mt-4 font-body">{post.data.description}</p>
+
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2 mt-5">
+          {post.data.tags.map(tag => (
+            <span class="text-xs border border-hannari-gold/30 rounded-full px-3 py-1 text-hannari-mauve font-body">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <span class="block w-12 h-1 bg-hannari-pink mt-8"></span>
+    </header>
+
+    <div class="prose-content font-body text-hannari-ink leading-relaxed">
+      <Content />
+    </div>
+
+    <footer class="mt-16 pt-8 border-t border-hannari-gold/20">
+      <a href="/ja/blog" class="text-sm text-hannari-pink hover:underline font-body">← {t('blog.backToList')}</a>
+    </footer>
+  </article>
+</Base>
+
+<style is:global>
+  .prose-content h1 { font-family: 'Zen Old Mincho', serif; font-size: 2rem; font-weight: 700; margin: 2rem 0 1rem; }
+  .prose-content h2 { font-family: 'Zen Old Mincho', serif; font-size: 1.5rem; font-weight: 700; margin: 2rem 0 1rem; padding-bottom: 0.3rem; border-bottom: 1px solid rgba(200,155,90,0.2); }
+  .prose-content h3 { font-family: 'Zen Old Mincho', serif; font-size: 1.25rem; font-weight: 700; margin: 1.5rem 0 0.75rem; }
+  .prose-content p  { margin: 1rem 0; }
+  .prose-content a  { color: #E8426E; text-decoration: underline; }
+  .prose-content a:hover { color: #9B3B6A; }
+  .prose-content ul, .prose-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+  .prose-content li { margin: 0.25rem 0; }
+  .prose-content code { font-family: 'JetBrains Mono', monospace; background: rgba(232,66,110,0.08); padding: 0.1rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+  .prose-content pre { background: #1A1018; color: #FDF6EE; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 1.5rem 0; }
+  .prose-content pre code { background: transparent; color: inherit; padding: 0; }
+  .prose-content blockquote { border-left: 3px solid #E8426E; padding-left: 1rem; color: rgba(26,16,24,0.6); margin: 1rem 0; }
+  .prose-content img { max-width: 100%; border-radius: 0.5rem; margin: 1.5rem 0; }
+</style>

@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations } from '../../i18n';
+import { getCollection } from 'astro:content';
+
+const t = useTranslations('ja');
+
+// 直近3件のイベントと最新3件のブログを取得
+const events = (await getCollection('events', ({ data }) => data.lang === 'ja' && data.date >= new Date()))
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+  .slice(0, 3);
+
+const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja' && !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+---
+<Base>
+  <!-- Hero -->
+  <section class="relative overflow-hidden min-h-[80vh] flex items-center">
+    <!-- 背景装飾 -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/4 -right-20 w-96 h-96 bg-hannari-pink/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 -left-20 w-80 h-80 bg-hannari-gold/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 py-24 relative">
+      <!-- アニメーションタイトル -->
+      <div class="mb-8 overflow-hidden">
+        <h1 id="hero-title" class="font-display text-6xl md:text-8xl font-black leading-none tracking-tight text-hannari-ink opacity-0">
+          <span class="block">はんなり</span>
+          <span class="block text-hannari-pink">プログラミング</span>
+        </h1>
+      </div>
+
+      <p class="font-body text-xl text-hannari-ink/60 mb-2 opacity-0 animate-fade-up" style="animation-delay:0.6s; animation-fill-mode:forwards;">
+        {t('hero.tagline')}
+      </p>
+
+      <div class="flex gap-6 mt-6 text-sm text-hannari-mauve font-body opacity-0 animate-fade-up" style="animation-delay:0.8s; animation-fill-mode:forwards;">
+        <span class="border border-hannari-mauve/30 rounded-full px-4 py-1">{t('hero.since')}</span>
+        <span class="border border-hannari-pink/30 rounded-full px-4 py-1 text-hannari-pink">{t('hero.members')}</span>
+      </div>
+
+      <div class="mt-10 flex gap-4 opacity-0 animate-fade-up" style="animation-delay:1s; animation-fill-mode:forwards;">
+        <a href="/ja/events" class="bg-hannari-pink text-white px-6 py-3 rounded-full font-body font-medium hover:bg-hannari-mauve transition-colors">
+          {t('nav.events')} →
+        </a>
+        <a href="/ja/blog" class="border border-hannari-ink/20 px-6 py-3 rounded-full font-body font-medium hover:border-hannari-pink hover:text-hannari-pink transition-colors">
+          {t('nav.blog')}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 今後のイベント -->
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="font-display text-3xl font-bold mb-8 text-hannari-ink">
+      {t('events.title')}
+      <span class="block w-12 h-1 bg-hannari-pink mt-2"></span>
+    </h2>
+    {events.length === 0 ? (
+      <p class="text-hannari-ink/40 font-body">{t('events.empty')}</p>
+    ) : (
+      <div class="grid gap-4">
+        {events.map(event => (
+          <article class="border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40">
+            <time class="text-xs text-hannari-gold font-mono">
+              {event.data.date.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric', weekday:'short' })}
+            </time>
+            <h3 class="font-display text-xl font-bold mt-1 text-hannari-ink">{event.data.title}</h3>
+            <p class="text-sm text-hannari-ink/60 mt-1 font-body">{event.data.description}</p>
+            <div class="flex gap-3 mt-3 text-xs text-hannari-ink/40">
+              <span>📍 {event.data.location}</span>
+              {event.data.online && <span>🌐 オンライン参加可</span>}
+            </div>
+            {event.data.url && (
+              <a href={event.data.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-hannari-pink hover:underline">
+                詳細・申込 →
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    )}
+    <a href="/ja/events" class="inline-block mt-6 text-sm text-hannari-pink hover:underline">すべてのイベントを見る →</a>
+  </section>
+
+  <!-- ブログ -->
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="font-display text-3xl font-bold mb-8 text-hannari-ink">
+      {t('blog.title')}
+      <span class="block w-12 h-1 bg-hannari-gold mt-2"></span>
+    </h2>
+    {posts.length === 0 ? (
+      <p class="text-hannari-ink/40 font-body">記事を準備中です。</p>
+    ) : (
+      <div class="grid md:grid-cols-3 gap-6">
+        {posts.map(post => (
+          <article class="group border border-hannari-gold/20 rounded-2xl p-5 hover:border-hannari-pink/40 transition-colors bg-white/40">
+            <time class="text-xs text-hannari-gold font-mono">
+              {post.data.pubDate.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
+            </time>
+            <h3 class="font-display text-lg font-bold mt-2 text-hannari-ink group-hover:text-hannari-pink transition-colors leading-snug">
+              {post.data.title}
+            </h3>
+            <p class="text-sm text-hannari-ink/50 mt-2 line-clamp-2 font-body">{post.data.description}</p>
+            <a href={`/ja/blog/${post.slug}`} class="inline-block mt-4 text-xs text-hannari-pink hover:underline">
+              {t('blog.readmore')} →
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+    <a href="/ja/blog" class="inline-block mt-6 text-sm text-hannari-pink hover:underline">すべての記事を見る →</a>
+  </section>
+</Base>
+
+<script>
+// タイトルのアニメーション
+const title = document.getElementById('hero-title');
+if (title) {
+  title.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  title.style.transform  = 'translateY(30px)';
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      title.style.opacity   = '1';
+      title.style.transform = 'translateY(0)';
+    }, 100);
+  });
+}
+</script>

@@ -1,0 +1,46 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n';
+import { getCollection } from 'astro:content';
+
+const t = useTranslations('ja');
+
+const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja' && !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Base title={t('blog.allTitle')}>
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h1 class="font-display text-4xl md:text-5xl font-black text-hannari-ink">
+      {t('blog.title')}
+      <span class="block w-12 h-1 bg-hannari-gold mt-3"></span>
+    </h1>
+
+    {posts.length === 0 ? (
+      <p class="text-hannari-ink/40 font-body mt-12">{t('blog.empty')}</p>
+    ) : (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        {posts.map(post => (
+          <a href={`/ja/blog/${post.slug}`} class="group border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40 block">
+            <time class="text-xs text-hannari-gold font-mono">
+              {post.data.pubDate.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
+            </time>
+            <h2 class="font-display text-xl font-bold mt-2 text-hannari-ink group-hover:text-hannari-pink transition-colors leading-snug">
+              {post.data.title}
+            </h2>
+            <p class="text-sm text-hannari-ink/50 mt-2 line-clamp-3 font-body">{post.data.description}</p>
+            {post.data.tags && post.data.tags.length > 0 && (
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                {post.data.tags.slice(0, 3).map(tag => (
+                  <span class="text-[10px] border border-hannari-gold/30 rounded-full px-2 py-0.5 text-hannari-mauve font-body">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            <span class="inline-block mt-4 text-xs text-hannari-pink font-body">{t('blog.readmore')} →</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+</Base>
