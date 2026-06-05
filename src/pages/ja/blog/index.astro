@@ -4,6 +4,7 @@ import { useTranslations } from '../../../i18n';
 import { getCollection } from 'astro:content';
 
 const t = useTranslations('ja');
+const getPostSlug = (post: { id: string }) => post.id.replace(/\.(mdx?)$/, '');
 
 const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja' && !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -20,7 +21,7 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja' && !
     ) : (
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
         {posts.map(post => (
-          <a href={`/ja/blog/${post.slug}`} class="group border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40 block">
+          <a href={`/ja/blog/${getPostSlug(post)}`} class="group border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40 block">
             <time class="text-xs text-hannari-gold font-mono">
               {post.data.pubDate.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric' })}
             </time>

@@ -4,6 +4,7 @@ import { useTranslations } from '../../i18n';
 import { getCollection } from 'astro:content';
 
 const t = useTranslations('ja');
+const getPostSlug = (post: { id: string }) => post.id.replace(/\.(mdx?)$/, '');
 
 // 直近3件のイベントと最新3件のブログを取得
 const events = (await getCollection('events', ({ data }) => data.lang === 'ja' && data.date >= new Date()))
@@ -107,7 +108,7 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'ja' && !
               {post.data.title}
             </h3>
             <p class="text-sm text-hannari-ink/50 mt-2 line-clamp-2 font-body">{post.data.description}</p>
-            <a href={`/ja/blog/${post.slug}`} class="inline-block mt-4 text-xs text-hannari-pink hover:underline">
+            <a href={`/ja/blog/${getPostSlug(post)}`} class="inline-block mt-4 text-xs text-hannari-pink hover:underline">
               {t('blog.readmore')} →
             </a>
           </article>

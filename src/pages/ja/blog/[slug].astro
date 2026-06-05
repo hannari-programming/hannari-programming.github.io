@@ -1,19 +1,19 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { useTranslations } from '../../../i18n';
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.lang === 'ja' && !data.draft);
   return posts.map(post => ({
-    params: { slug: post.slug },
+    params: { slug: post.id.replace(/\.(mdx?)$/, '') },
     props:  { post },
   }));
 }
 
 type Props = { post: CollectionEntry<'blog'> };
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
 const t = useTranslations('ja');
 ---

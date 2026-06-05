@@ -20,7 +20,7 @@ Astro + Tailwind CSS で構築し、GitHub Pages にホスティング。
 
 | 用途 | 技術 |
 |------|------|
-| フレームワーク | Astro 4.x |
+| フレームワーク | Astro 6.x |
 | スタイリング | Tailwind CSS 3.x |
 | コンテンツ管理 | Astro Content Collections (Markdown / MDX) |
 | 多言語対応 | Astro i18n (`src/i18n/index.ts`) |
@@ -36,13 +36,13 @@ src/
 │   └── index.ts          # 翻訳辞書・ヘルパー関数（全言語のUIテキストはここ）
 ├── layouts/
 │   └── Base.astro        # 共通レイアウト（ナビ・フッター・言語切替）
+├── content.config.ts     # Collection スキーマ・loader 定義
 ├── pages/
 │   ├── index.astro       # / → /ja/ リダイレクトのみ
 │   ├── ja/               # 日本語ページ群
 │   ├── en/               # 英語ページ群
 │   └── zh/               # 中国語ページ群
 └── content/
-    ├── config.ts         # Collection スキーマ定義
     ├── blog/             # ブログ記事 (.md / .mdx)
     └── events/           # イベント情報 (.md)
 
