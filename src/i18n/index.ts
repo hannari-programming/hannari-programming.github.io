@@ -32,6 +32,9 @@ export const ui = {
     'footer.copy':     '© 2026 Hannari Programming. Kyoto, Japan.',
     'lang.switch':     '言語を切り替える',
     'nav.github':      'GitHubで参加する',
+    'notFound.title':  'ページが見つかりません',
+    'notFound.message': 'お探しのページは存在しないか、移動した可能性があります。',
+    'notFound.home':   'ホームへ戻る',
   },
   en: {
     'nav.home':        'Home',
@@ -58,6 +61,9 @@ export const ui = {
     'footer.copy':     '© 2026 Hannari Programming. Kyoto, Japan.',
     'lang.switch':     'Switch language',
     'nav.github':      'Contribute on GitHub',
+    'notFound.title':  'Page not found',
+    'notFound.message': 'The page you are looking for may not exist or may have moved.',
+    'notFound.home':   'Back to home',
   },
   zh: {
     'nav.home':        '首页',
@@ -84,6 +90,9 @@ export const ui = {
     'footer.copy':     '© 2026 Hannari Programming. 日本京都.',
     'lang.switch':     '切换语言',
     'nav.github':      '在GitHub上参与',
+    'notFound.title':  '页面未找到',
+    'notFound.message': '您查找的页面可能不存在，或已被移动。',
+    'notFound.home':   '返回首页',
   },
 } as const;
 

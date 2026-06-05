@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import { useTranslations } from '../i18n';
+
+const t = useTranslations('ja');
+---
+<Base title={t('notFound.title')} description={t('notFound.message')}>
+  <section class="max-w-3xl mx-auto px-6 py-24 text-center">
+    <p class="font-mono text-sm text-hannari-gold">404</p>
+    <h1 class="font-display text-4xl md:text-5xl font-black mt-3 text-hannari-ink">
+      {t('notFound.title')}
+    </h1>
+    <p class="font-body text-hannari-ink/60 mt-4">
+      {t('notFound.message')}
+    </p>
+    <a
+      href="/ja/"
+      class="inline-block mt-8 bg-hannari-pink text-white px-6 py-3 rounded-full font-body font-medium hover:bg-hannari-mauve transition-colors"
+    >
+      {t('notFound.home')}
+    </a>
+  </section>
+</Base>
+
+<script>
+const supportedLangs = new Set(['ja', 'en', 'zh']);
+const [, lang] = window.location.pathname.split('/');
+
+if (supportedLangs.has(lang)) {
+  window.location.replace(`/${lang}/`);
+}
+</script>
