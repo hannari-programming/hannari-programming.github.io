@@ -29,6 +29,9 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'en' && !
       <p class="font-body text-xl text-hannari-ink/60 mb-2 opacity-0 animate-fade-up" style="animation-delay:0.6s; animation-fill-mode:forwards;">
         {t('hero.tagline')}
       </p>
+      <p class="font-body text-base font-medium text-hannari-pink opacity-0 animate-fade-up" style="animation-delay:0.7s; animation-fill-mode:forwards;">
+        {t('hero.subTagline')}
+      </p>
       <div class="flex gap-6 mt-6 text-sm text-hannari-mauve font-body opacity-0 animate-fade-up" style="animation-delay:0.8s; animation-fill-mode:forwards;">
         <span class="border border-hannari-mauve/30 rounded-full px-4 py-1">{t('hero.since')}</span>
         <span class="border border-hannari-pink/30 rounded-full px-4 py-1 text-hannari-pink">{t('hero.members')}</span>

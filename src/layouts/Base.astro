@@ -47,7 +47,7 @@ function switchLangUrl(targetLang: string) {
       <a href={`/${lang}/`} class="font-display text-xl font-bold text-hannari-mauve tracking-tight">
         はんなり<span class="text-hannari-pink">プログラミング</span>
       </a>
-      <div class="flex items-center gap-6 text-sm">
+      <div class="flex items-center gap-3 sm:gap-6 text-sm">
         <a href={`/${lang}/events`} class="hover:text-hannari-pink transition-colors">{t('nav.events')}</a>
         <a href={`/${lang}/blog`}   class="hover:text-hannari-pink transition-colors">{t('nav.blog')}</a>
 
@@ -62,6 +62,21 @@ function switchLangUrl(targetLang: string) {
             </a>
           ))}
         </div>
+
+        <!-- GitHubで参加する -->
+        <a
+          href="https://github.com/hannari-programming/hannari-programming.github.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={t('nav.github')}
+          title={t('nav.github')}
+          class="inline-flex items-center gap-1.5 border border-hannari-gold/30 rounded-full px-3 py-1 text-xs hover:text-hannari-pink hover:border-hannari-pink/60 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+            <path d="M12 .5C5.73.5.67 5.56.67 11.83c0 5.02 3.25 9.27 7.76 10.77.57.1.78-.25.78-.55v-1.92c-3.16.69-3.83-1.52-3.83-1.52-.52-1.31-1.26-1.66-1.26-1.66-1.03-.71.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.95.1-.74.4-1.24.72-1.52-2.52-.29-5.18-1.26-5.18-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .95-.3 3.12 1.16.91-.25 1.88-.38 2.85-.39.97.01 1.94.14 2.85.39 2.17-1.46 3.12-1.16 3.12-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.67 5.31-5.21 5.59.41.35.77 1.05.77 2.12v3.14c0 .3.21.66.79.55 4.51-1.5 7.75-5.75 7.75-10.77C23.33 5.56 18.27.5 12 .5z" />
+          </svg>
+          <span class="hidden sm:inline">{t('nav.github')}</span>
+        </a>
       </div>
     </nav>
   </header>

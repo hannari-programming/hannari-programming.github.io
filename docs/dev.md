@@ -1,83 +1,23 @@
 # 開発指示書
 
-**目標：** コンテンツ（ブログ・イベント）を追加したら即座にサイトで閲覧できる状態にする。
+*ナビゲーションバーの右端（言語切り替えの隣）に「GitHubで参加する」ボタンを追加してください。
 
----
+## 要件
 
-## 現在の状態
+- 配置：ナビバー右端、言語切り替えボタンの右隣
+- ラベル：日本語ページは「GitHubで参加する」、英語ページは「Contribute on GitHub」、中文ページは「在GitHub上参与」
+- リンク先：https://github.com/hannari-programming/hannari-programming.github.io
+- target="_blank" rel="noopener noreferrer" をつける
+- デザイン：
+  - GitHubのアイコン（SVG or lucide等）＋テキスト
+  - 既存のナビデザインに馴染むスタイル
+  - ホバー時に少し目立つ程度でOK、派手にしすぎない
+- モバイル対応：画面が狭い場合はアイコンのみ表示でもOK
 
-| ページ | 状態 |
-|--------|------|
-| `/ja/` トップ | ✅ 実装済み |
-| `/en/` トップ | ✅ 実装済み |
-| `/zh/` トップ | ✅ 実装済み（骨組みのみ） |
-| `/ja/blog` 一覧 | ❌ 未実装（404） |
-| `/en/blog` 一覧 | ❌ 未実装（404） |
-| `/ja/blog/[slug]` 詳細 | ❌ 未実装（404） |
-| `/en/blog/[slug]` 詳細 | ❌ 未実装（404） |
-| `/ja/events` 一覧 | ❌ 未実装（404） |
-| `/en/events` 一覧 | ❌ 未実装（404） |
+## 注意
 
-トップページからブログ・イベントへのリンクは張ってあるが、すべて 404 になる。
-
----
-
-## 今回作るもの（優先順位順）
-
-### 1. ブログ詳細ページ `[slug].astro`
-
-**作成ファイル：**
-- `src/pages/ja/blog/[slug].astro`
-- `src/pages/en/blog/[slug].astro`
-
-**要件：**
-- `getCollection('blog')` で lang フィルタリングして `getStaticPaths` を生成
-- `post.render()` で Markdown 本文をレンダリング
-- タイトル・日付・タグを表示
-- `Base.astro` レイアウトを使う
-
-**参考スキーマ（`src/content/config.ts`）：**
-```ts
-// blog
-title, description, pubDate, lang, tags?, heroImage?, draft
-```
-
----
-
-### 2. ブログ一覧ページ
-
-**作成ファイル：**
-- `src/pages/ja/blog/index.astro`
-- `src/pages/en/blog/index.astro`
-
-**要件：**
-- `getCollection('blog')` で lang フィルタリング・`draft: false` のみ表示
-- `pubDate` 降順でソート
-- 記事カードのデザインはトップページ（`ja/index.astro`）の blog セクションを流用してよい
-- 詳細ページ `/ja/blog/{slug}` へのリンクを貼る
-
----
-
-### 3. イベント一覧ページ
-
-**作成ファイル：**
-- `src/pages/ja/events/index.astro`
-- `src/pages/en/events/index.astro`
-
-**要件：**
-- `getCollection('events')` で lang フィルタリング
-- **今後のイベント**（`date >= today`）と**過去のイベント**を分けて表示
-- `date` 昇順（直近が上）
-- カードデザインはトップページの events セクションを流用してよい
-
-**参考スキーマ（`src/content/config.ts`）：**
-```ts
-// events
-title, description, date, lang, location, online, url?, tags?
-```
-
----
-
+- 言語ごとにラベルが切り替わる仕組みが既にあれば、それに乗っかる形で実装する
+- なければ現在のURLパスから `/ja/` `/en/` `/zh/` を判定して出し分けてOK
 ## 共通の実装ルール
 
 - レイアウトは必ず `Base.astro` を使う
@@ -90,13 +30,9 @@ title, description, date, lang, location, online, url?, tags?
 
 ## 完了条件
 
-以下がすべてブラウザで表示できること：
-
-```
-http://localhost:4321/ja/blog
-http://localhost:4321/ja/blog/hello-world-ja   ← サンプル記事
-http://localhost:4321/en/blog
-http://localhost:4321/en/blog/hello-world-en
-http://localhost:4321/ja/events
-http://localhost:4321/en/events
-```
+- [ ] `/ja/` `/en/` `/zh/` の全ページでナビバー右端にボタンが表示される
+- [ ] ボタンをクリックするとGitHubリポジトリが新しいタブで開く
+- [ ] 言語に応じてラベルが正しく切り替わっている
+- [ ] モバイル幅（375px程度）でレイアウトが崩れない
+- [ ] `pnpm build` がエラーなく通る
+- [ ] ローカルで `pnpm dev` して目視確認済み
