@@ -17,3 +17,5 @@ So we decided to build a site using GitHub Pages. Our goal is to shape it in a w
 We'll keep going — online and in person — as a place where people can enjoy learning programming, AI, and all things digital.
 
 Let's build something fun together. (Which is exactly why we've only set up the bare minimum here. Definitely not because we were cutting corners.)
+
+<img src="https://github.com/user-attachments/assets/89c41849-8ff6-4794-9c9a-d8ad0a8a6462" width="400" alt="はんなり">
