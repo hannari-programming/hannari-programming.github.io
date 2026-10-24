@@ -18,4 +18,4 @@ tags: ["コミュニティ", "振り返り"]
 
 このサイトの面白い仕組み作りもみんなで仕掛けていきましょう。（ということで、最低限しか作ってません。決して手抜きではない）
 
-<img src="https://github.com/user-attachments/assets/89c41849-8ff6-4794-9c9a-d8ad0a8a6462" width="400" alt="はんなり">
+<img src="/images/hannari.png" width="400" alt="はんなり">

@@ -18,4 +18,4 @@ We'll keep going — online and in person — as a place where people can enjoy 
 
 Let's build something fun together. (Which is exactly why we've only set up the bare minimum here. Definitely not because we were cutting corners.)
 
-<img src="https://github.com/user-attachments/assets/89c41849-8ff6-4794-9c9a-d8ad0a8a6462" width="400" alt="はんなり">
+<img src="/images/hannari.png" width="400" alt="はんなり">
