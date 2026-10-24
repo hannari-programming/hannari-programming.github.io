@@ -53,7 +53,7 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'en' && !
     {events.length === 0
       ? <p class="text-hannari-ink/40">{t('events.empty')}</p>
       : <div class="grid gap-4">{events.map(e => (
-          <article class="border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40">
+          <article class="relative border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40">
             <time class="text-xs text-hannari-gold font-mono">{e.data.date.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', weekday:'short' })}</time>
             <h3 class="font-display text-xl font-bold mt-1">{e.data.title}</h3>
             <p class="text-sm text-hannari-ink/60 mt-1">{e.data.description}</p>
@@ -61,7 +61,7 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'en' && !
               <span>📍 {e.data.location}</span>
               {e.data.online && <span>🌐 Online available</span>}
             </div>
-            {e.data.url && <a href={e.data.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-hannari-pink hover:underline">Details / Register →</a>}
+            {e.data.url && <a href={e.data.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-hannari-pink hover:underline after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-hannari-pink">Details / Register →</a>}
           </article>
         ))}</div>
     }

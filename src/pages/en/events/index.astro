@@ -32,7 +32,7 @@ const past = all
       ) : (
         <div class="grid gap-4">
           {upcoming.map(event => (
-            <article class="border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40">
+            <article class="relative border border-hannari-gold/20 rounded-2xl p-6 hover:border-hannari-pink/40 transition-colors bg-white/40">
               <time class="text-xs text-hannari-gold font-mono">
                 {event.data.date.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', weekday:'short' })}
               </time>
@@ -43,7 +43,7 @@ const past = all
                 {event.data.online && <span>🌐 {t('events.online')}</span>}
               </div>
               {event.data.url && (
-                <a href={event.data.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-hannari-pink hover:underline font-body">
+                <a href={event.data.url} target="_blank" rel="noopener" class="inline-block mt-4 text-sm text-hannari-pink hover:underline after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-hannari-pink font-body">
                   {t('events.details')} →
                 </a>
               )}
