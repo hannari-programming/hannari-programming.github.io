@@ -73,12 +73,12 @@ const posts = (await getCollection('blog', ({ data }) => data.lang === 'en' && !
     {posts.length === 0
       ? <p class="text-hannari-ink/40">Blog posts coming soon.</p>
       : <div class="grid md:grid-cols-3 gap-6">{posts.map(p => (
-          <article class="group border border-hannari-gold/20 rounded-2xl p-5 hover:border-hannari-pink/40 transition-colors bg-white/40">
+          <a href={`/en/blog/${getPostSlug(p)}`} class="block group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-hannari-pink border border-hannari-gold/20 rounded-2xl p-5 hover:border-hannari-pink/40 transition-colors bg-white/40">
             <time class="text-xs text-hannari-gold font-mono">{p.data.pubDate.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}</time>
             <h3 class="font-display text-lg font-bold mt-2 group-hover:text-hannari-pink transition-colors leading-snug">{p.data.title}</h3>
             <p class="text-sm text-hannari-ink/50 mt-2 line-clamp-2">{p.data.description}</p>
-            <a href={`/en/blog/${getPostSlug(p)}`} class="inline-block mt-4 text-xs text-hannari-pink hover:underline">{t('blog.readmore')} →</a>
-          </article>
+            <span class="inline-block mt-4 text-xs text-hannari-pink hover:underline">{t('blog.readmore')} →</span>
+          </a>
         ))}</div>
     }
     <a href="/en/blog" class="inline-block mt-6 text-sm text-hannari-pink hover:underline">View all posts →</a>
